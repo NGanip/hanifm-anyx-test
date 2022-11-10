@@ -1,0 +1,22 @@
+type Query {
+    calculatePayment(paymentRq: PaymentRq): PaymentRs
+}
+
+input PaymentRq {
+    price: String
+    price_modifier: Float
+    payment_method: PaymentMethodEnum
+    date_time: TimestampZ
+}
+scalar TimestampZ
+scalar PaymentMethodEnum
+
+type PaymentRs {
+    data: PaymentInfo
+    error: String
+}
+
+type PaymentInfo {
+    final_price: String
+    points: Int
+}
