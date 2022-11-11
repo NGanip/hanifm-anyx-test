@@ -23,10 +23,10 @@ public class PaymentUsecase {
 
         PaymentRs paymentRs = new PaymentRs();
         PaymentInfo paymentInfo = new PaymentInfo();
-        double price = 0.0;
-        double final_price = 0.0;
-        double adjustmentUp = 0.0;
-        double adjustmentDown = 0.0;
+        double price;
+        double priceModifier = Double.valueOf(request.getPrice_modifier());
+        double final_price;
+        double points;
 
         try {
 
@@ -43,20 +43,22 @@ public class PaymentUsecase {
             Adjustment currentMethod = adjustmentRepository.findByPaymentMethod(request.getPayment_method()).orElse(null);
             if (currentMethod == null)
                 throw new Exception("invalid payment method");
-
             log.info("currentMethod: {}", currentMethod);
 
-
             //validate price_modifier based on payment method
-
-
-
+            if (currentMethod.getAdjustmentDown() > priceModifier || currentMethod.getAdjustmentUp() < priceModifier)
+                throw new Exception("price modifier out of range");
             /*validate input END*/
 
-
+            /*core logic START*/
             //calculate
-            paymentInfo.setFinal_price("nice");
-            paymentInfo.setPoints(5);
+            final_price = price * priceModifier;
+            paymentInfo.setFinal_price(String.format("%.2f", final_price));
+            points = price * currentMethod.getAdjustmentPoints();
+            paymentInfo.setPoints((int) Math.round(points));
+            /*core logic END*/
+
+            //save payment
 
             //set success
             paymentRs.setData(paymentInfo);
