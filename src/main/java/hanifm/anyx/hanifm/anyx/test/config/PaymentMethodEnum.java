@@ -1,4 +1,4 @@
-package hanifm.anyx.hanifm.anyx.test.config.properties;
+package hanifm.anyx.hanifm.anyx.test.config;
 
 public enum PaymentMethodEnum {
 
