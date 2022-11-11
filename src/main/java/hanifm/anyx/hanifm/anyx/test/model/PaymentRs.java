@@ -2,9 +2,7 @@ package hanifm.anyx.hanifm.anyx.test.model;
 
 import lombok.*;
 
-@Getter
-@Setter
-@ToString
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentRs {

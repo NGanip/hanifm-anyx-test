@@ -1,15 +1,17 @@
+type Mutation {
+    calculatePayment(paymentRq: PaymentRq!): PaymentRs!
+}
+
 type Query {
-    calculatePayment(paymentRq: PaymentRq): PaymentRs
+    doNothing: String
 }
 
 input PaymentRq {
-    price: String
-    price_modifier: Float
-    payment_method: PaymentMethodEnum
-    date_time: TimestampZ
+    price: String!
+    price_modifier: Float!
+    payment_method: String!
+    datetime: String!
 }
-scalar TimestampZ
-scalar PaymentMethodEnum
 
 type PaymentRs {
     data: PaymentInfo

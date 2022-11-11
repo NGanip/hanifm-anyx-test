@@ -1,21 +1,19 @@
 package hanifm.anyx.hanifm.anyx.test.model;
 
-import hanifm.anyx.hanifm.anyx.test.config.properties.PaymentMethodEnum;
+import hanifm.anyx.hanifm.anyx.test.config.PaymentMethodEnum;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
-@Getter
-@Setter
-@ToString
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PaymentRq {
 
     private String price;
     private Float price_modifier;
-    private PaymentMethodEnum payment_method;
-    private Timestamp date_time;
+    private String payment_method;
+    private Date datetime;
 }
