@@ -1,6 +1,5 @@
 package hanifm.anyx.hanifm.anyx.test.model;
 
-import hanifm.anyx.hanifm.anyx.test.config.PaymentMethodEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
