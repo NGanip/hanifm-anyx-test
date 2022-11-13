@@ -1,0 +1,44 @@
+#schema for calculate price and point based on payment method
+
+type Mutation {
+    calculatePayment(paymentRq: CalculationRq!): CalculationRs
+}
+
+input CalculationRq {
+    price: String!
+    price_modifier: Float!
+    payment_method: String!
+    datetime: String!
+}
+
+type CalculationRs {
+    data: PaymentInfo
+    error: String
+}
+
+type PaymentInfo {
+    final_price: String
+    points: Int
+}
+
+#schema to get sales log
+
+type Query {
+    GetSalesLog(SalesLogRq: SalesLogRq!): SalesLogRs
+}
+
+input SalesLogRq {
+    startDateTime: String!
+    endDateTime: String!
+}
+
+type SalesLogRs {
+    data: [SalesLogData]
+    error: String
+}
+
+type SalesLogData {
+    datetime: String
+    sales: String
+    points: Int
+}

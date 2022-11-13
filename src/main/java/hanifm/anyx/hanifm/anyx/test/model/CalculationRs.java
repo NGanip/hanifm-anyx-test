@@ -5,8 +5,8 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentInfo {
+public class CalculationRs {
 
-    private String final_price;
-    private Integer points;
+    private CalculationInfo data;
+    private String error;
 }
