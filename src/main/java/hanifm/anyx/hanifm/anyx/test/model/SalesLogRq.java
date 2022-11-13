@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SalesLogRq {
 
-    private Date startDateTime;
-    private Date endDateTime;
+    private Instant startDateTime;
+    private Instant endDateTime;
 }
