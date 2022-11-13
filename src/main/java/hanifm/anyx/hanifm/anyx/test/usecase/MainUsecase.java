@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 @Component
@@ -71,8 +72,9 @@ public class MainUsecase {
             /*core logic END*/
 
             //save payment
-            SalesLog salesLog = new SalesLog(null,
-                    new Timestamp(request.getDatetime().getTime()),
+            SalesLog salesLog = new SalesLog(
+                    null,
+                    Timestamp.from(request.getDatetime()),
                     finalPriceString,
                     finalPoints,
                     price,
@@ -103,28 +105,29 @@ public class MainUsecase {
 
         try {
             //validate if START datetime occurs before END datetime
-            if (request.getStartDateTime().compareTo(request.getEndDateTime()) > 0)
+            if (!request.getStartDateTime().isBefore(request.getEndDateTime()))
                 throw new Exception("invalid time range");
 
 //            List<SalesLog> dbSalesLogs = new ArrayList<>(salesLogRepository.findAll());
 
             //get all sales logs between START and +1 hour, then repeat
             //prepare time variable
-            Calendar currentTime = Calendar.getInstance();
-            Calendar nextTime = Calendar.getInstance();
-            currentTime.setTime(request.getStartDateTime());
-            nextTime.setTime(currentTime.getTime());
-            nextTime.add(Calendar.HOUR, 1);
+            Instant currentTime = request.getStartDateTime();
+            Instant nextTime = request.getStartDateTime().plus(Duration.ofHours(1));
 
             //main logic: split sales log by hour
-            while (currentTime.getTime().compareTo(request.getEndDateTime()) <= 0) {
+            while (!currentTime.isAfter(request.getEndDateTime())) {
                 dbSalesLogs = salesLogRepository.findByDatetimeGreaterThanEqualAndDatetimeLessThanOrderByDatetimeAsc(
-                        new Timestamp(currentTime.getTime().getTime()),
-                        new Timestamp(nextTime.getTime().getTime())
+                        Timestamp.from(currentTime),
+                        Timestamp.from(nextTime)
                 ).orElse(null);
 
                 if (dbSalesLogs != null) {
-                    SalesLogData currentData = new SalesLogData(currentTime.getTime(), "0.0", 0);
+                    SalesLogData currentData = new SalesLogData(
+                            String.valueOf(currentTime),
+                            "0.0",
+                            0
+                    );
                     //sum sales and points for current hour
                     for (SalesLog dbLog : dbSalesLogs) {
                         currentData.setSales(String.format("%.2f", Double.parseDouble(currentData.getSales()) + Double.parseDouble(dbLog.getSales())));
@@ -135,8 +138,8 @@ public class MainUsecase {
                         dataList.add(currentData);
                 }
 
-                currentTime.setTime(nextTime.getTime());
-                nextTime.add(Calendar.HOUR, 1);
+                currentTime = nextTime;
+                nextTime = nextTime.plus(Duration.ofHours(1));
             }
 
             //throw error if not logs found
