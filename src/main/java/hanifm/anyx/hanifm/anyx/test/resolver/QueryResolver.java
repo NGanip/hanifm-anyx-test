@@ -1,7 +1,6 @@
 package hanifm.anyx.hanifm.anyx.test.resolver;
 
 import graphql.kickstart.tools.GraphQLQueryResolver;
-import hanifm.anyx.hanifm.anyx.test.model.CalculationRs;
 import hanifm.anyx.hanifm.anyx.test.model.SalesLogRq;
 import hanifm.anyx.hanifm.anyx.test.model.SalesLogRs;
 import hanifm.anyx.hanifm.anyx.test.usecase.MainUsecase;

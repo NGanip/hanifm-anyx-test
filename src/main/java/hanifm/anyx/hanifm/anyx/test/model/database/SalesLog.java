@@ -22,5 +22,9 @@ public class SalesLog {
     private Timestamp datetime;
     private String sales;
     private int points;
+    private double initialPrice;
+    private double priceModifier;
+    private String paymentMethod;
+
 
 }
